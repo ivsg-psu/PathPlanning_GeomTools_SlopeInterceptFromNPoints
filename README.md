@@ -1,0 +1,2 @@
+# PathPlanning_GeomTools_SlopeInterceptFromNPoints
+Contains function to determine slope and intercept from N points (regression), specifically fcn_geometry_find_slope_intercept_from_N_points
