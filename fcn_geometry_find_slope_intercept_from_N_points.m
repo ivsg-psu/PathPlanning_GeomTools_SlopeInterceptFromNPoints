@@ -1,7 +1,7 @@
 
 function [slope,intercept] = fcn_geometry_find_slope_intercept_from_N_points(points,varargin)
 % fcn_geometry_find_slope_intercept_from_N_points
-% Finds the slope and intercept of a line connecting two points
+% Finds the slope and intercept of a line connecting two or more points
 % Format: 
 % [slope,intercept] = fcn_geometry_find_slope_intercept_from_N_points(points)
 %
@@ -30,7 +30,7 @@ function [slope,intercept] = fcn_geometry_find_slope_intercept_from_N_points(poi
 % 2020_06_25 - wrote the code
 %
 
-flag_do_debug = 1; % Flag to plot the results for debugging
+flag_do_debug = 0; % Flag to plot the results for debugging
 flag_check_inputs = 1; % Flag to perform input checking
 
 %% check input arguments
@@ -85,23 +85,43 @@ end
 % 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  
-% The code below sets up the problem as a regression form. Since the
-% equation of a line is:
-%     y = m*x + b
-% then:
-%     y1 = m*x1 + b
-%     y2 = m*x2 + b
-%     (etc)
-% or:
-%     Y = m*X+b
-% or:
-%     Y = [X 1]*[m b]';
-% which allows one to solve for [m b] via matrix multiplication via
-%
-%    result = ([X 1]'*[X 1])\([X 1]*Y)
-%
-% where result = [m b]
+% The solution in the code is set up in matrix form.
 % 
+% The code sets up the problem as a regression form. Since the
+% equation of a line is:
+% 
+%     y = m*x + b
+% 
+% then:
+% 
+%     y1 = m*x1 + b
+% 
+%     y2 = m*x2 + b
+% 
+%     (etc)
+% 
+% or:
+% 
+%     Y = m*X+b
+% 
+% or:
+% 
+%     Y = [X 1]*[m b]';
+% 
+% Where X and Y are column vectors. This allows one to solve for [m b] via matrix multiplication via matrix algebra and pseudo-inversion:
+%  
+%     result = ([X 1]'*[X 1])\([X 1]*Y)
+%  
+% where the result variable contains the slope and intercept of the best-fit line through the points:
+% 
+%     result = [m b]. 
+%  
+% If the matrix is singular, e.g. if the x-coordinates are all the same,
+% the line is vertical and the slope is infinite, as is the intercept.
+%  
+% If the X matrix is 2x2, there's no need for the transpose. Each of these
+% conditions is handled separately in the code for speed.
+
 
 % Fill in X and Y
 X = points(:,1);
@@ -109,10 +129,10 @@ Y = points(:,2);
 
 % Check to see if the result is going to be singular. This happens if all
 % the x values are the same, e.g. the line is vertical
-if all(X == X(1))  % Are all the x values the same?
+if all(X == X(1))  % Are all the x values the same? This is a vertical line.
     slope = inf;
     intercept = inf;
-else  % The result will be an ordinary line
+else  % The result will be an ordinary, non-vertical line
     
     % If X is square already, no need to do the transpose calculations
     if Npoints == 2
