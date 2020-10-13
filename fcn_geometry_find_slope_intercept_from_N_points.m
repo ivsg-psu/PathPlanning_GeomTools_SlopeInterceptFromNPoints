@@ -28,10 +28,16 @@ function [slope,intercept] = fcn_geometry_find_slope_intercept_from_N_points(poi
 
 % Revision history:
 % 2020_06_25 - wrote the code
-%
+% 2020_10_13 - added verbose mode with dbstack
 
 flag_do_debug = 0; % Flag to plot the results for debugging
 flag_check_inputs = 1; % Flag to perform input checking
+
+if flag_do_debug
+    st = dbstack; %#ok<*UNRCH>
+    fprintf(1,'Starting function: %s, in file: %s\n',st(1).name,st(1).file);
+end
+
 
 %% check input arguments
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -174,5 +180,10 @@ if flag_do_debug
     
     plot(x,y,'b.');
     
+end
+
+if flag_do_debug
+    fprintf(1,'ENDING function: %s, in file: %s\n\n',st(1).name,st(1).file); %#ok<NODEF>
+end
 end
 
