@@ -3,7 +3,7 @@ function [slope,intercept] = fcn_geometry_find_slope_intercept_from_N_points(poi
 % fcn_geometry_find_slope_intercept_from_N_points
 % Finds the slope and intercept of a line connecting two or more points
 %
-% Format: 
+% FORMAT: 
 %
 %      [slope,intercept] = fcn_geometry_find_slope_intercept_from_N_points(points)
 %
@@ -12,12 +12,13 @@ function [slope,intercept] = fcn_geometry_find_slope_intercept_from_N_points(poi
 %      points: a Nx2 vector where N is the number of points, but at least 2. 
 %
 % OUTPUTS:
+%
 %      slope: a scalar (1x1) representing the slope connecting the two
 %      points
 %      intercept: a scalar (1x1) representing the y-axis intercept of the
 %      line fit
 %
-% Examples:
+% EXAMPLES:
 %      
 %      % BASIC example
 %      points = [2 3; 4 5];
