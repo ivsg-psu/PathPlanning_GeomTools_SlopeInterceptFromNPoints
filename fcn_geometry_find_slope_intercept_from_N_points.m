@@ -2,10 +2,13 @@
 function [slope,intercept] = fcn_geometry_find_slope_intercept_from_N_points(points,varargin)
 % fcn_geometry_find_slope_intercept_from_N_points
 % Finds the slope and intercept of a line connecting two or more points
+%
 % Format: 
-% [slope,intercept] = fcn_geometry_find_slope_intercept_from_N_points(points)
+%
+%      [slope,intercept] = fcn_geometry_find_slope_intercept_from_N_points(points)
 %
 % INPUTS:
+%
 %      points: a Nx2 vector where N is the number of points, but at least 2. 
 %
 % OUTPUTS:
